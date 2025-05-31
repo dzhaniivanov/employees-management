@@ -47,7 +47,6 @@ const EmployeesList = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         margin="normal"
-        fullWidth
       />
       <TableContainer component={Paper}>
         <Table>
