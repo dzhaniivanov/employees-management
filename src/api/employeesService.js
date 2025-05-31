@@ -7,3 +7,17 @@ export const getEmployees = async () => {
   }
   return res.json();
 };
+
+export const addEmployee = async (employee) => {
+  const res = await fetch(BASE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(employee),
+  });
+  if (!res.ok) {
+    throw new Error("failed to add employee");
+  }
+  return res.json();
+};
