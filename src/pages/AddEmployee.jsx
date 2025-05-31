@@ -1,11 +1,12 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { addEmployee } from "../api/employeesService";
 import { useNavigate } from "react-router";
 import { validateEmployee } from "../helpers/validateEmployee";
 import EmployeeForm from "../components/EmployeeForm";
+import { useEmployees } from "../hooks/useEmployees";
 
 const AddEmployee = () => {
+  const { addNewEmployee } = useEmployees();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -27,7 +28,7 @@ const AddEmployee = () => {
     if (Object.keys(errors).length > 0) return;
 
     try {
-      await addEmployee(formData);
+      await addNewEmployee(formData);
       navigate("/");
     } catch (error) {
       console.error("error with adding employee", error);

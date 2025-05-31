@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { deleteEmployee, getEmployeeById } from "../api/employeesService";
+import { useEmployees } from "../hooks/useEmployees";
 
 const EmployeeProfile = () => {
+  const { employees, removeEmployee } = useEmployees();
   const navigate = useNavigate();
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
@@ -23,22 +24,16 @@ const EmployeeProfile = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    const fetchEmployee = async () => {
-      try {
-        const data = await getEmployeeById(id);
-        setEmployee(data);
-      } catch (error) {
-        console.error("failed to fetch employee", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEmployee();
-  }, [id]);
+    const emp = employees.find((e) => e.id === id);
+    if (emp) {
+      setEmployee(emp);
+    }
+    setLoading(false);
+  }, [id, employees]);
 
   const handleDelete = async () => {
     try {
-      await deleteEmployee(id);
+      await removeEmployee(id);
       navigate("/");
     } catch (error) {
       console.error("failed to delete employee", error);

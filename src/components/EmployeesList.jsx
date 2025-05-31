@@ -7,26 +7,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { getEmployees } from "../api/employeesService";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { useEmployees } from "../hooks/useEmployees";
 
 const EmployeesList = () => {
-  const [employees, setEmployees] = useState([]);
+  const { employees } = useEmployees();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getEmployees();
-        setEmployees(data);
-      } catch (error) {
-        console.error("error with fetching", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <TableContainer component={Paper}>
