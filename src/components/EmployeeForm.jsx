@@ -59,6 +59,7 @@ const EmployeeForm = ({
         sx={{ marginTop: "1rem" }}
         fullWidth
         disabled={isSubmitting}
+        data-cy="submit-btn"
       >
         {submitLabel}
       </Button>
