@@ -21,3 +21,17 @@ export const addEmployee = async (employee) => {
   }
   return res.json();
 };
+
+export const updateEmployee = async (id, employee) => {
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(employee),
+  });
+  if (!res.ok) {
+    throw new Error("failed to update employee");
+  }
+  return res.json();
+};

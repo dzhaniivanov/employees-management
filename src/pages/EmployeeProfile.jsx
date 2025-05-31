@@ -1,6 +1,10 @@
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router";
 
 const EmployeeProfile = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   return (
     <Paper sx={{ maxWidth: 600, margin: "2rem auto", padding: "2rem" }}>
       <Box display="flex" justifyContent="center" alignItems="center">
@@ -15,7 +19,10 @@ const EmployeeProfile = () => {
         <strong>Job title:</strong> QA Engineer
       </Typography>
       <Stack direction="row" spacing={2} mt={2}>
-        <Button variant="outlined" onClick={() => {}}>
+        <Button
+          variant="outlined"
+          onClick={() => navigate(`/employees/${id}/edit`)}
+        >
           Edit
         </Button>
         <Button variant="contained" color="error" onClick={() => {}}>
