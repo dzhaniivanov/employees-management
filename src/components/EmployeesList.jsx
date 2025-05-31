@@ -9,9 +9,11 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getEmployees } from "../api/employeesService";
+import { Navigate, useNavigate } from "react-router";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +57,12 @@ const EmployeesList = () => {
             </TableRow>
           ) : (
             employees.map((emp) => (
-              <TableRow key={emp.id}>
+              <TableRow
+                key={emp.id}
+                hover
+                onClick={() => navigate(`/employees/${emp.id}`)}
+                style={{ cursor: "pointer" }}
+              >
                 <TableCell>{emp.id}</TableCell>
                 <TableCell>{emp.firstName}</TableCell>
                 <TableCell>{emp.lastName}</TableCell>
