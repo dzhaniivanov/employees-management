@@ -35,3 +35,21 @@ export const updateEmployee = async (id, employee) => {
   }
   return res.json();
 };
+
+export const getEmployeeById = async (id) => {
+  const res = await fetch(`${BASE_URL}/${id}`);
+  if (!res.ok) {
+    throw new Error("failed to fetch employee");
+  }
+  return res.json();
+};
+
+export const deleteEmployee = async (id) => {
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    throw new Error("failed to delete employee");
+  }
+  return res.json();
+};
