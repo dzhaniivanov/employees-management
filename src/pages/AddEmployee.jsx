@@ -2,6 +2,8 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { addEmployee } from "../api/employeesService";
 import { useNavigate } from "react-router";
+import { validateEmployee } from "../helpers/validateEmployee";
+import EmployeeForm from "../components/EmployeeForm";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const AddEmployee = () => {
     email: "",
     jobTitle: "",
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -18,6 +21,11 @@ const AddEmployee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errors = validateEmployee(formData);
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) return;
+
     try {
       await addEmployee(formData);
       navigate("/");
@@ -31,51 +39,13 @@ const AddEmployee = () => {
       <Typography variant="h5" align="center" gutterBottom>
         Add new employee
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate>
-        <TextField
-          fullWidth
-          label="First Name"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          required
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          fullWidth
-          label="Last Name"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          fullWidth
-          label="Email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          sx={{ marginBottom: "1rem" }}
-        />
-        <TextField
-          fullWidth
-          label="Job Title"
-          name="jobTitle"
-          value={formData.jobTitle}
-          onChange={handleChange}
-          required
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ marginTop: "1rem" }}
-          fullWidth
-        >
-          Add employee
-        </Button>
-      </Box>
+      <EmployeeForm
+        formData={formData}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        formErrors={formErrors}
+        submitLabel="Add employee"
+      />
     </Paper>
   );
 };
