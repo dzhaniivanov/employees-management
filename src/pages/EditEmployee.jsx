@@ -1,13 +1,13 @@
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getEmployeeById } from "../api/employeesService";
 import { useNavigate, useParams } from "react-router";
 import EmployeeForm from "../components/EmployeeForm";
 import { validateEmployee } from "../helpers/validateEmployee";
 import { useEmployees } from "../hooks/useEmployees";
+import { toast } from "react-toastify";
 
 const EditEmployee = () => {
-  const { editEmployee } = useEmployees();
+  const { employees, editEmployee } = useEmployees();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,19 +20,12 @@ const EditEmployee = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEmployee = async () => {
-      try {
-        const data = await getEmployeeById(id);
-        setFormData(data);
-      } catch (error) {
-        console.error("failed to fetch employee", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEmployee();
-  }, [id]);
-
+    const emp = employees.find((e) => e.id === id);
+    if (emp) {
+      setFormData(emp);
+    }
+    setLoading(false);
+  }, [id, employees]);
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -44,9 +37,11 @@ const EditEmployee = () => {
 
     try {
       await editEmployee(id, formData);
+      toast.success("employee updated successfully");
       navigate(`/employees/${id}`);
     } catch (error) {
       console.error("error with updating employee", error);
+      toast.error("failed to updat employee, please try again.");
     }
   };
 

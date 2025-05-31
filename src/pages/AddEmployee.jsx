@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { validateEmployee } from "../helpers/validateEmployee";
 import EmployeeForm from "../components/EmployeeForm";
 import { useEmployees } from "../hooks/useEmployees";
+import { toast } from "react-toastify";
 
 const AddEmployee = () => {
   const { addNewEmployee } = useEmployees();
@@ -29,9 +30,11 @@ const AddEmployee = () => {
 
     try {
       await addNewEmployee(formData);
+      toast.success("employee added successfully");
       navigate("/");
     } catch (error) {
       console.error("error with adding employee", error);
+      toast.error("failed to add employee, please try again.");
     }
   };
 

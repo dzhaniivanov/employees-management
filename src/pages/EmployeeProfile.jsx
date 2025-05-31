@@ -14,6 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useEmployees } from "../hooks/useEmployees";
+import { toast } from "react-toastify";
 
 const EmployeeProfile = () => {
   const { employees, removeEmployee } = useEmployees();
@@ -34,9 +35,11 @@ const EmployeeProfile = () => {
   const handleDelete = async () => {
     try {
       await removeEmployee(id);
+      toast.success("employee deleted successfully");
       navigate("/");
     } catch (error) {
       console.error("failed to delete employee", error);
+      toast.error("failed to delete employee, please try again.");
     }
   };
 
@@ -73,7 +76,7 @@ const EmployeeProfile = () => {
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete ${employee.firstName}{" "}
+            Are you sure you want to delete {employee.firstName}{" "}
             {employee.lastName} record from databse?This action cannot be
             undone.
           </DialogContentText>
