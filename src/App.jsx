@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router";
-import EmployeesList from "./pages/EmployeesList";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<EmployeesList />} />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 }
